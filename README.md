@@ -216,7 +216,7 @@ Regular users can access protected routes like the Gallery and User Profile afte
 Admin users have additional privileges:
 - Default admin credentials:
   - Email: admin@happyhome.com
-  - Password: admin123456
+  - Password: a******
 - Admin login automatically opens a new tab with the admin dashboard
 - Admin authentication grants access to all admin routes
 
