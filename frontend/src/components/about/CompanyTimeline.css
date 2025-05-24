@@ -1,0 +1,126 @@
+.timeline-section {
+  background-color: var(--color-neutral-50);
+  position: relative;
+  overflow: hidden;
+}
+
+.timeline {
+  position: relative;
+  padding: var(--space-3xl) 0;
+  margin-left: 20px;
+}
+
+.timeline-progress {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  background-color: var(--color-primary-800);
+  transform-origin: top center;
+}
+
+.timeline-item {
+  position: relative;
+  margin-bottom: var(--space-3xl);
+  padding-left: var(--space-2xl);
+}
+
+.timeline-item:last-child {
+  margin-bottom: 0;
+}
+
+.timeline-dot {
+  position: absolute;
+  left: -8px;
+  top: 8px;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: var(--color-accent-700);
+  border: 3px solid var(--color-neutral-50);
+  box-shadow: var(--shadow-md);
+  z-index: 2;
+}
+
+.timeline-content {
+  background-color: white;
+  border-radius: var(--radius-md);
+  padding: var(--space-lg);
+  box-shadow: var(--shadow-md);
+  position: relative;
+}
+
+.timeline-content::before {
+  content: '';
+  position: absolute;
+  left: -10px;
+  top: 8px;
+  width: 20px;
+  height: 20px;
+  background-color: white;
+  transform: rotate(45deg);
+  border-radius: 2px;
+  z-index: -1;
+}
+
+.timeline-year {
+  display: inline-block;
+  padding: var(--space-xs) var(--space-sm);
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-800);
+  font-weight: 700;
+  border-radius: var(--radius-sm);
+  margin-bottom: var(--space-sm);
+  font-size: 0.9rem;
+}
+
+.timeline-title {
+  margin-bottom: var(--space-sm);
+  font-size: 1.3rem;
+}
+
+.timeline-description {
+  color: var(--color-neutral-700);
+  line-height: 1.6;
+}
+
+@media (min-width: 768px) {
+  .timeline {
+    margin-left: 50%;
+  }
+
+  .timeline-progress {
+    left: 50%;
+  }
+
+  .timeline-item {
+    width: 50%;
+  }
+
+  .timeline-item:nth-child(odd) {
+    margin-left: -50%;
+    padding-left: 0;
+    padding-right: var(--space-2xl);
+  }
+
+  .timeline-item:nth-child(even) {
+    padding-left: var(--space-2xl);
+  }
+
+  .timeline-item:nth-child(odd) .timeline-dot {
+    left: auto;
+    right: -8px;
+  }
+
+  .timeline-item:nth-child(odd) .timeline-content::before {
+    left: auto;
+    right: -10px;
+  }
+}
+
+@media (max-width: 576px) {
+  .timeline-item {
+    padding-left: var(--space-xl);
+  }
+}

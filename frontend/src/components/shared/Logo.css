@@ -1,0 +1,53 @@
+.logo {
+  display: flex;
+  align-items: center;
+  font-family: var(--font-heading);
+}
+
+.logo-icon {
+  position: relative;
+  margin-right: var(--space-xs);
+}
+
+.logo-icon span {
+  font-size: 1.8rem;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.logo-icon span:first-child {
+  position: relative;
+  z-index: 1;
+}
+
+.logo-icon span:last-child {
+  position: absolute;
+  left: 7px;
+  top: 0;
+  color: var(--color-accent-700);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.logo-name {
+  font-size: 1.4rem;
+  line-height: 1;
+  font-weight: 400;
+}
+
+.logo-name strong {
+  font-weight: 700;
+}
+
+@media (max-width: 576px) {
+  .logo-name {
+    font-size: 1.2rem;
+  }
+  
+  .logo-icon span {
+    font-size: 1.6rem;
+  }
+}

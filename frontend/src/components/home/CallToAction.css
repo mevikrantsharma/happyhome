@@ -1,0 +1,66 @@
+.cta {
+  background-image: linear-gradient(to right, rgba(8, 27, 54, 0.9), rgba(8, 27, 54, 0.8)), 
+                    url('https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: var(--space-5xl) 0;
+  text-align: center;
+}
+
+.cta-content {
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+.cta-title {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: var(--space-lg);
+}
+
+.cta-text {
+  font-size: 1.2rem;
+  margin-bottom: var(--space-xl);
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  justify-content: center;
+  gap: var(--space-md);
+}
+
+.cta .btn-outline {
+  border-color: white;
+  color: white;
+}
+
+.cta .btn-outline:hover {
+  background-color: white;
+  color: var(--color-primary-800);
+}
+
+@media (max-width: 576px) {
+  .cta {
+    padding: var(--space-3xl) 0;
+  }
+
+  .cta-title {
+    font-size: 2rem;
+  }
+
+  .cta-text {
+    font-size: 1rem;
+  }
+
+  .cta-buttons {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .cta-buttons .btn {
+    width: 100%;
+    max-width: 250px;
+  }
+}

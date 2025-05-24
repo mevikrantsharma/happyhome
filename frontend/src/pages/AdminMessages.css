@@ -1,0 +1,222 @@
+.admin-messages-container {
+  padding: var(--space-xl);
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: var(--space-xl);
+  padding-bottom: var(--space-md);
+  border-bottom: 1px solid var(--color-neutral-300);
+}
+
+.admin-header h1 {
+  color: var(--color-primary-800);
+  font-size: 2rem;
+  margin: 0;
+}
+
+.admin-controls {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.refresh-button, .admin-button, .settings-button, .logout-button {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.refresh-button {
+  background-color: var(--color-primary-500);
+  color: white;
+  border: none;
+}
+
+.refresh-button:hover {
+  background-color: var(--color-primary-600);
+}
+
+.admin-button {  
+  background-color: var(--color-accent-500);
+  color: white;
+  border: none;
+}
+
+.admin-button:hover {
+  background-color: var(--color-accent-600);
+}
+
+.settings-button {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-800);
+  border: 1px solid var(--color-primary-300);
+}
+
+.settings-button:hover {
+  background-color: var(--color-primary-100);
+}
+
+.logout-button {
+  background-color: white;
+  color: var(--color-neutral-800);
+  border: 1px solid var(--color-neutral-300);
+}
+
+.logout-button:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.admin-error {
+  background-color: #FFF6F6;
+  color: #DB2828;
+  border: 1px solid #DB2828;
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+}
+
+.loading-spinner, .no-messages {
+  text-align: center;
+  padding: var(--space-2xl);
+  color: var(--color-neutral-600);
+  font-size: 1.1rem;
+}
+
+.messages-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+  gap: var(--space-lg);
+}
+
+.message-card {
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: var(--space-lg);
+  transition: all 0.2s;
+  border-left: 4px solid var(--color-neutral-300);
+}
+
+.message-card.unread {
+  border-left-color: var(--color-primary-500);
+  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+  background-color: #FAFCFF;
+}
+
+.message-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: var(--space-md);
+}
+
+.message-header h3 {
+  margin: 0;
+  color: var(--color-neutral-900);
+  font-size: 1.25rem;
+}
+
+.message-date {
+  color: var(--color-neutral-600);
+  font-size: 0.875rem;
+}
+
+.message-service {
+  margin-bottom: var(--space-md);
+}
+
+.service-tag {
+  display: inline-block;
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-800);
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  font-size: 0.875rem;
+  text-transform: capitalize;
+}
+
+.message-contact {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: var(--space-md);
+  color: var(--color-neutral-700);
+  font-size: 0.95rem;
+}
+
+.message-content {
+  background-color: var(--color-neutral-50);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+  color: var(--color-neutral-800);
+}
+
+.message-content p {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.message-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+}
+
+.mark-read-button, .delete-button {
+  padding: var(--space-sm) var(--space-md);
+  border-radius: var(--radius-sm);
+  font-weight: 500;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.mark-read-button {
+  background-color: var(--color-neutral-100);
+  color: var(--color-primary-800);
+  border: 1px solid var(--color-primary-300);
+}
+
+.mark-read-button:hover {
+  background-color: var(--color-primary-50);
+}
+
+.delete-button {
+  background-color: white;
+  color: #DB2828;
+  border: 1px solid #DB2828;
+}
+
+.delete-button:hover {
+  background-color: #FFF6F6;
+}
+
+@media (max-width: 768px) {
+  .admin-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+  }
+  
+  .messages-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .admin-controls {
+    width: 100%;
+    flex-direction: column;
+  }
+  
+  .refresh-button, .admin-button, .settings-button, .logout-button {
+    width: 100%;
+  }
+}

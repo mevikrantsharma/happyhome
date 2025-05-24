@@ -1,0 +1,108 @@
+.gallery-filter {
+  margin-bottom: var(--space-xl);
+}
+
+.desktop-filter {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+}
+
+.filter-button {
+  padding: var(--space-sm) var(--space-md);
+  background-color: transparent;
+  border: 2px solid var(--color-neutral-200);
+  border-radius: var(--radius-full);
+  color: var(--color-neutral-800);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-normal);
+}
+
+.filter-button:hover {
+  border-color: var(--color-primary-300);
+  color: var(--color-primary-800);
+}
+
+.filter-button.active {
+  background-color: var(--color-primary-800);
+  border-color: var(--color-primary-800);
+  color: white;
+}
+
+/* Mobile Filter */
+.mobile-filter {
+  display: none;
+  position: relative;
+}
+
+.mobile-filter-button {
+  width: 100%;
+  padding: var(--space-md);
+  background-color: white;
+  border: 2px solid var(--color-neutral-200);
+  border-radius: var(--radius-md);
+  color: var(--color-neutral-800);
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mobile-filter-button span {
+  font-size: 0.8rem;
+  transition: transform var(--transition-fast);
+}
+
+.mobile-filter-button:hover {
+  border-color: var(--color-primary-300);
+}
+
+.mobile-dropdown {
+  position: absolute;
+  top: calc(100% + var(--space-xs));
+  left: 0;
+  width: 100%;
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-lg);
+  z-index: 10;
+  overflow: hidden;
+}
+
+.mobile-filter-option {
+  width: 100%;
+  padding: var(--space-md);
+  background-color: transparent;
+  border: none;
+  border-bottom: 1px solid var(--color-neutral-200);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color var(--transition-fast);
+}
+
+.mobile-filter-option:last-child {
+  border-bottom: none;
+}
+
+.mobile-filter-option:hover {
+  background-color: var(--color-neutral-100);
+}
+
+.mobile-filter-option.active {
+  background-color: var(--color-primary-50);
+  color: var(--color-primary-800);
+  font-weight: 500;
+}
+
+@media (max-width: 768px) {
+  .desktop-filter {
+    display: none;
+  }
+
+  .mobile-filter {
+    display: block;
+  }
+}

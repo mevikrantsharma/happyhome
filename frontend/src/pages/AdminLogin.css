@@ -1,0 +1,101 @@
+.admin-login-container {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-neutral-100);
+  padding: var(--space-lg);
+}
+
+.admin-login-card {
+  background-color: white;
+  border-radius: var(--radius-md);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 450px;
+  padding: var(--space-xl);
+}
+
+.admin-login-header {
+  text-align: center;
+  margin-bottom: var(--space-xl);
+}
+
+.admin-login-header h2 {
+  color: var(--color-primary-800);
+  font-size: 2rem;
+  margin-bottom: var(--space-sm);
+}
+
+.admin-login-header p {
+  color: var(--color-neutral-600);
+}
+
+.admin-login-error {
+  background-color: #FFF6F6;
+  color: #DB2828;
+  border: 1px solid #DB2828;
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  text-align: center;
+}
+
+.admin-login-form .form-group {
+  margin-bottom: var(--space-lg);
+}
+
+.admin-login-form label {
+  display: block;
+  margin-bottom: var(--space-xs);
+  font-weight: 500;
+  color: var(--color-neutral-800);
+}
+
+.admin-login-form input {
+  width: 100%;
+  padding: var(--space-md);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  transition: all 0.2s;
+}
+
+.admin-login-form input:focus {
+  outline: none;
+  border-color: var(--color-primary-500);
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+
+.admin-login-form input.error {
+  border-color: #DB2828;
+}
+
+.admin-login-form .error-message {
+  color: #DB2828;
+  font-size: 0.875rem;
+  margin-top: var(--space-xs);
+  display: block;
+}
+
+.admin-login-button {
+  width: 100%;
+  padding: var(--space-md);
+  background-color: var(--color-primary-800);
+  color: white;
+  border: none;
+  border-radius: var(--radius-sm);
+  font-size: 1rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.admin-login-button:hover {
+  background-color: var(--color-primary-900);
+}
+
+.admin-login-button:disabled {
+  background-color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
