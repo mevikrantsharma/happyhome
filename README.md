@@ -227,7 +227,7 @@ The system includes email verification during registration:
 Admin users have additional privileges:
 - Default admin credentials:
   - Email: admin@happyhome.com
-  - Password: a******
+  - Password: admin123456
 - Admin login automatically opens a new tab with the admin dashboard
 - Admin authentication grants access to all admin routes
 
