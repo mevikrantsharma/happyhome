@@ -180,6 +180,10 @@ JWT_EXPIRES_IN=30d
 CLOUDINARY_CLOUD_NAME=your_cloudinary_cloud_name
 CLOUDINARY_API_KEY=your_cloudinary_api_key
 CLOUDINARY_API_SECRET=your_cloudinary_api_secret
+
+# Email Configuration for OTP
+EMAIL_USER=your-gmail-address@gmail.com
+EMAIL_PASSWORD=your-app-password
 ```
 
 ## API Endpoints
@@ -211,6 +215,13 @@ The application uses JWT (JSON Web Tokens) for authentication. When a user or ad
 
 ### User Authentication
 Regular users can access protected routes like the Gallery and User Profile after logging in.
+
+#### Email Verification
+The system includes email verification during registration:
+1. Users enter their email and click "Verify Email"
+2. A 6-digit OTP is sent to their email
+3. After verifying their email with the OTP, they can complete registration
+4. OTPs expire after 10 minutes for security
 
 ### Admin Authentication
 Admin users have additional privileges:

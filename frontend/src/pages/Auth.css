@@ -235,6 +235,21 @@
   margin-bottom: var(--space-lg);
 }
 
+.auth-success {
+  background-color: #EFF8F6;
+  color: #1E8C6E;
+  border: 1px solid #1E8C6E;
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  margin-bottom: var(--space-lg);
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
 .gallery-redirect-message {
   background-color: #F8FFFF;
   color: var(--color-primary-700);
@@ -291,6 +306,61 @@
   color: #DB2828;
   font-size: 0.85rem;
   margin-top: 4px;
+}
+
+/* Email verification styling */
+.email-verification-container,
+.otp-verification-container {
+  display: flex;
+  gap: var(--space-sm);
+  position: relative;
+}
+
+.email-verification-container input,
+.otp-verification-container input {
+  flex: 1;
+}
+
+.verify-email-button,
+.verify-otp-button {
+  background-color: var(--color-primary-600);
+  color: white;
+  border: none;
+  border-radius: var(--radius-md);
+  padding: 0 var(--space-md);
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  white-space: nowrap;
+  min-width: 120px;
+}
+
+.verify-email-button:hover,
+.verify-otp-button:hover {
+  background-color: var(--color-primary-700);
+}
+
+.verify-email-button:disabled,
+.verify-otp-button:disabled {
+  background-color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+
+.email-success-message {
+  color: var(--color-primary-600);
+  font-size: 0.85rem;
+  margin-top: 4px;
+}
+
+.verified-badge {
+  display: inline-flex;
+  align-items: center;
+  color: #1E8C6E;
+  background-color: rgba(30, 140, 110, 0.1);
+  padding: 0.3rem 0.5rem;
+  border-radius: var(--radius-sm);
+  font-size: 0.85rem;
+  font-weight: 500;
 }
 
 .form-terms {

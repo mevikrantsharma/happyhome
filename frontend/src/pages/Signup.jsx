@@ -17,6 +17,16 @@ const Signup = () => {
   const [passwordError, setPasswordError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [successMessage, setSuccessMessage] = useState('');
+  
+  // OTP related states
+  const [showOtpField, setShowOtpField] = useState(false);
+  const [otp, setOtp] = useState('');
+  const [otpError, setOtpError] = useState('');
+  const [emailVerified, setEmailVerified] = useState(false);
+  const [otpSending, setOtpSending] = useState(false);
+  const [otpVerifying, setOtpVerifying] = useState(false);
+  const [otpSendSuccess, setOtpSendSuccess] = useState('');
   
   const { register, error, loading } = useContext(AuthContext);
   const navigate = useNavigate();
@@ -35,6 +45,80 @@ const Signup = () => {
     }
   };
 
+  // Function to send OTP
+  const handleSendOTP = async () => {
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      setOtpError('Please enter a valid email address');
+      return;
+    }
+    
+    setOtpSending(true);
+    setOtpError('');
+    setOtpSendSuccess('');
+    
+    try {
+      const response = await fetch('http://localhost:4000/api/otp/send-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setShowOtpField(true);
+        setOtpSendSuccess('Verification code sent! Please check your email.');
+      } else {
+        setOtpError(data.error || 'Failed to send verification code');
+      }
+    } catch (err) {
+      setOtpError('Network error. Please try again.');
+      console.error('Send OTP error:', err);
+    } finally {
+      setOtpSending(false);
+    }
+  };
+  
+  // Function to verify OTP
+  const handleVerifyOTP = async () => {
+    if (!otp) {
+      setOtpError('Please enter the verification code');
+      return;
+    }
+    
+    setOtpVerifying(true);
+    setOtpError('');
+    
+    try {
+      const response = await fetch('http://localhost:4000/api/otp/verify-otp', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, otp }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        setEmailVerified(true);
+        setOtpSendSuccess('Email verified successfully!');
+        setOtp('');
+      } else {
+        setOtpError(data.error || 'Invalid verification code');
+      }
+    } catch (err) {
+      setOtpError('Network error. Please try again.');
+      console.error('Verify OTP error:', err);
+    } finally {
+      setOtpVerifying(false);
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     
@@ -49,6 +133,12 @@ const Signup = () => {
       setPasswordError('Password must be at least 6 characters');
       return;
     }
+    
+    // Check if email is verified
+    if (!emailVerified) {
+      setOtpError('Please verify your email first');
+      return;
+    }
 
     // Call register from context (excluding confirmPassword)
     const userData = {
@@ -58,11 +148,25 @@ const Signup = () => {
       phone
     };
     
-    await register(userData);
+    const result = await register(userData);
     
-    // Check if registered successfully by checking if AuthContext has updated
-    if (localStorage.getItem('token')) {
-      navigate('/');
+    // If registration was successful, show success message and redirect to login after a short delay
+    if (result && result.success) {
+      setSuccessMessage(result.message || 'Account created successfully! Redirecting to login...');
+      
+      // Clear form
+      setFormData({
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        phone: ''
+      });
+      
+      // Redirect to login page after 2 seconds
+      setTimeout(() => {
+        navigate('/login', { state: { registrationSuccess: true, email } });
+      }, 2000);
     }
   };
 
@@ -87,6 +191,7 @@ const Signup = () => {
               <h2>Join Happy Home</h2>
               <p className="auth-subtitle">Create your account to get started</p>
               
+              {successMessage && <div className="auth-success">{successMessage}</div>}
               {error && <div className="auth-error">{error}</div>}
               
               <form onSubmit={handleSubmit} className="auth-form">
@@ -105,16 +210,58 @@ const Signup = () => {
                 
                 <div className="form-group">
                   <label htmlFor="email">Email</label>
-                  <input
-                    id="email"
-                    name="email"
-                    type="email"
-                    value={email}
-                    onChange={handleChange}
-                    placeholder="Your email address"
-                    required
-                  />
+                  <div className="email-verification-container">
+                    <input
+                      id="email"
+                      name="email"
+                      type="email"
+                      value={email}
+                      onChange={handleChange}
+                      placeholder="Your email address"
+                      disabled={emailVerified}
+                      required
+                    />
+                    {!emailVerified && (
+                      <button 
+                        type="button" 
+                        className="verify-email-button"
+                        onClick={handleSendOTP}
+                        disabled={otpSending || !email}
+                      >
+                        {otpSending ? 'Sending...' : 'Verify Email'}
+                      </button>
+                    )}
+                    {emailVerified && (
+                      <span className="verified-badge">✓ Verified</span>
+                    )}
+                  </div>
+                  {otpSendSuccess && !emailVerified && <div className="email-success-message">{otpSendSuccess}</div>}
                 </div>
+                
+                {showOtpField && !emailVerified && (
+                  <div className="form-group">
+                    <label htmlFor="otp">Verification Code</label>
+                    <div className="otp-verification-container">
+                      <input
+                        id="otp"
+                        type="text"
+                        value={otp}
+                        onChange={(e) => setOtp(e.target.value)}
+                        placeholder="Enter 6-digit code"
+                        maxLength={6}
+                      />
+                      <button 
+                        type="button" 
+                        className="verify-otp-button"
+                        onClick={handleVerifyOTP}
+                        disabled={otpVerifying || !otp}
+                      >
+                        {otpVerifying ? 'Verifying...' : 'Submit'}
+                      </button>
+                    </div>
+                    {otpError && <span className="error-message">{otpError}</span>}
+                  </div>
+                )}
                 
                 <div className="form-group">
                   <label htmlFor="phone">Phone Number (Optional)</label>

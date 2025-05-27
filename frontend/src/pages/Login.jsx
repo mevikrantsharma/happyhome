@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useState, useContext, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -20,6 +20,17 @@ const Login = () => {
   
   // Check if user was redirected from gallery
   const isFromGallery = from === '/gallery';
+  
+  // Check if user was redirected after registration
+  const registrationSuccess = location.state?.registrationSuccess || false;
+  const registeredEmail = location.state?.email || '';
+  
+  // Pre-fill email if redirected from registration
+  useEffect(() => {
+    if (registeredEmail) {
+      setEmail(registeredEmail);
+    }
+  }, [registeredEmail]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -90,6 +101,12 @@ const Login = () => {
               {isFromGallery && (
                 <div className="gallery-redirect-message">
                   <p>Please log in to view our exclusive Gallery collection</p>
+                </div>
+              )}
+              
+              {registrationSuccess && (
+                <div className="auth-success">
+                  <p>Your account has been created successfully! Please log in with your credentials.</p>
                 </div>
               )}
               

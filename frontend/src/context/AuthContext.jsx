@@ -39,20 +39,22 @@ export const AuthProvider = ({ children }) => {
       const data = await response.json();
 
       if (response.ok) {
-        localStorage.setItem('user', JSON.stringify(data.user));
-        localStorage.setItem('token', data.token);
+        // No longer storing user data or token in localStorage
+        // No longer setting user and token in state
+        // This prevents automatic login after registration
         
-        setUser(data.user);
-        setToken(data.token);
         setError(null);
+        return { success: true, message: 'Registration successful! Please log in.' };
       } else {
         setError(data.error || 'Registration failed');
         setUser(null);
         setToken(null);
+        return { success: false };
       }
     } catch (err) {
       setError('Network error. Please check your connection.');
       console.error('Registration error:', err);
+      return { success: false };
     } finally {
       setLoading(false);
     }
