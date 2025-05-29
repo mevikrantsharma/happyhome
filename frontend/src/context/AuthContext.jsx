@@ -8,18 +8,69 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  
+  // Helper function to clear session data
+  const clearSession = () => {
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    localStorage.removeItem('sessionTimestamp');
+    setUser(null);
+    setToken(null);
+  };
 
-  // Check if user is logged in on initial load
+  // Check if user is logged in on initial load and validate token
   useEffect(() => {
-    const storedUser = localStorage.getItem('user');
-    const storedToken = localStorage.getItem('token');
+    const validateSession = async () => {
+      const storedUser = localStorage.getItem('user');
+      const storedToken = localStorage.getItem('token');
+      const sessionTimestamp = localStorage.getItem('sessionTimestamp');
+      
+      // Check for session timeout (24 hours)
+      const SESSION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
+      const currentTime = new Date().getTime();
+      const sessionTime = sessionTimestamp ? parseInt(sessionTimestamp) : 0;
+      
+      if (currentTime - sessionTime > SESSION_TIMEOUT) {
+        // Session expired, clear storage
+        console.log('Session expired due to timeout');
+        clearSession();
+        setLoading(false);
+        return;
+      }
 
-    if (storedUser && storedToken) {
-      setUser(JSON.parse(storedUser));
-      setToken(storedToken);
-    }
-
-    setLoading(false);
+      if (storedUser && storedToken) {
+        try {
+          // Validate token with the server
+          const response = await fetch('http://localhost:4000/api/users/me', {
+            headers: {
+              'Authorization': `Bearer ${storedToken}`
+            }
+          });
+          
+          if (response.ok) {
+            // Token is valid
+            setUser(JSON.parse(storedUser));
+            setToken(storedToken);
+            // Update session timestamp
+            localStorage.setItem('sessionTimestamp', currentTime.toString());
+          } else {
+            // Token is invalid
+            console.log('Invalid token, clearing session');
+            clearSession();
+          }
+        } catch (error) {
+          console.error('Error validating token:', error);
+          // On error (like server not responding), don't auto-logout
+          // Just use stored data but don't update timestamp
+          setUser(JSON.parse(storedUser));
+          setToken(storedToken);
+        }
+      }
+      
+      setLoading(false);
+    };
+    
+    validateSession();
   }, []);
 
   // Register user
@@ -98,10 +149,7 @@ export const AuthProvider = ({ children }) => {
 
   // Logout user
   const logout = () => {
-    localStorage.removeItem('user');
-    localStorage.removeItem('token');
-    setUser(null);
-    setToken(null);
+    clearSession();
   };
 
   // Update user profile

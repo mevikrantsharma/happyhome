@@ -52,6 +52,12 @@ const AdminLayout = ({ children }) => {
             Images
           </Link>
           <Link 
+            to="/admin/users" 
+            className={`admin-nav-link ${currentPath === '/admin/users' ? 'active' : ''}`}
+          >
+            Users
+          </Link>
+          <Link 
             to="/admin/settings" 
             className={`admin-nav-link ${currentPath === '/admin/settings' ? 'active' : ''}`}
           >

@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { FaImages, FaFolder, FaFolderOpen, FaArrowLeft, FaPlus } from 'react-icons/fa';
 import './AdminImageUpload.css';
 
 const AdminImageUpload = () => {
@@ -8,6 +9,8 @@ const AdminImageUpload = () => {
   const [uploadLoading, setUploadLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [showUploadForm, setShowUploadForm] = useState(true);
   const navigate = useNavigate();
 
   // Form state
@@ -202,8 +205,18 @@ const AdminImageUpload = () => {
       {success && <div className="admin-success">{success}</div>}
 
       <div className="admin-content-grid">
+        {showUploadForm ? (
         <div className="image-upload-form">
-          <h2>Upload New Image</h2>
+          <div className="form-header">
+            <h2>Upload New Image</h2>
+            <button 
+              type="button" 
+              className="close-form-button"
+              onClick={() => setShowUploadForm(false)}
+            >
+              Close
+            </button>
+          </div>
           <form onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="title">Title</label>
@@ -288,35 +301,109 @@ const AdminImageUpload = () => {
             </button>
           </form>
         </div>
+        ) : null}
 
         <div className="images-gallery">
-          <h2>Uploaded Images</h2>
-          
-          {isLoading ? (
-            <div className="loading-spinner">Loading images...</div>
-          ) : images.length === 0 ? (
-            <div className="no-images">No images found.</div>
+          {/* Album Selection View */}
+          {!selectedCategory ? (
+            <>
+              <div className="albums-header">
+                <h2>Photo Albums by Category</h2>
+              </div>
+              
+              {isLoading ? (
+                <div className="loading-spinner">Loading albums...</div>
+              ) : images.length === 0 ? (
+                <div className="no-images">
+                  <FaImages className="no-images-icon" />
+                  <p>No images found. Start by uploading your first image!</p>
+                </div>
+              ) : (
+                <div className="albums-container">
+                  {/* Get unique categories from images */}
+                  {Array.from(new Set(images.map(img => img.category))).sort().map(category => {
+                    // Filter images for this category
+                    const categoryImages = images.filter(img => img.category === category);
+                    
+                    // Skip empty categories
+                    if (categoryImages.length === 0) return null;
+                    
+                    // Format category name for display
+                    const categoryName = category.charAt(0).toUpperCase() + category.slice(1);
+                    
+                    // Get cover image (first image or placeholder)
+                    const coverImage = categoryImages[0]?.imageUrl;
+                    
+                    return (
+                      <div 
+                        key={category} 
+                        className="album-card"
+                        onClick={() => setSelectedCategory(category)}
+                      >
+                        <div className="album-cover">
+                          {coverImage ? (
+                            <img src={coverImage} alt={categoryName} />
+                          ) : (
+                            <div className="album-placeholder">
+                              <FaFolder />
+                            </div>
+                          )}
+                        </div>
+                        <div className="album-info">
+                          <h3 className="album-title">
+                            <FaFolder /> {categoryName}
+                          </h3>
+                          <p className="album-count">{categoryImages.length} images</p>
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+              )}
+            </>
           ) : (
-            <div className="admin-images-grid">
-              {images.map((image) => (
-                <div key={image._id} className="admin-image-card">
-                  <img src={image.imageUrl} alt={image.title} />
-                  <div className="admin-image-info">
-                    <h3>{image.title}</h3>
-                    <p className="admin-image-category">
-                      Category: <span>{image.category}</span>
-                    </p>
-                    {image.featured && <span className="featured-badge">Featured</span>}
-                    <button
-                      className="delete-button"
-                      onClick={() => handleDelete(image._id)}
-                    >
-                      Delete
-                    </button>
+            /* Selected Category View */
+            <>
+              <div className="category-header">
+                <button 
+                  className="back-to-albums-button"
+                  onClick={() => setSelectedCategory(null)}
+                >
+                  <FaArrowLeft /> Back to Albums
+                </button>
+                <h2>
+                  <FaFolderOpen /> {selectedCategory.charAt(0).toUpperCase() + selectedCategory.slice(1)}
+                </h2>
+
+              </div>
+              
+              {isLoading ? (
+                <div className="loading-spinner">Loading images...</div>
+              ) : (
+                <div className="category-images">
+                  <div className="admin-images-grid">
+                    {images
+                      .filter(image => image.category === selectedCategory)
+                      .map((image) => (
+                        <div key={image._id} className="admin-image-card">
+                          <img src={image.imageUrl} alt={image.title} />
+                          <div className="admin-image-info">
+                            <h3>{image.title}</h3>
+                            {image.featured && <span className="featured-badge">Featured</span>}
+                            <button
+                              className="delete-button"
+                              onClick={() => handleDelete(image._id)}
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </div>
+                      ))
+                    }
                   </div>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </div>

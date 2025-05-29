@@ -143,6 +143,27 @@ exports.getMe = async (req, res) => {
 // @desc    Update user profile
 // @route   PUT /api/users/profile
 // @access  Private
+// @desc    Get all users (admin only)
+// @route   GET /api/users/all
+// @access  Private/Admin
+exports.getAllUsers = async (req, res) => {
+  try {
+    console.log('Admin requested all users');
+    
+    const users = await User.find().select('-password');
+    console.log(`Found ${users.length} users in database`);
+    
+    // Return directly as array for simplicity
+    return res.status(200).json(users);
+  } catch (error) {
+    console.error('Error fetching users:', error);
+    return res.status(500).json({
+      success: false,
+      error: 'Failed to fetch users from database'
+    });
+  }
+};
+
 exports.updateProfile = async (req, res) => {
   try {
     const { name, email, phone, currentPassword, newPassword } = req.body;
