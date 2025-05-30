@@ -17,6 +17,7 @@ router.post('/login', loginUser);
 // Protected routes
 router.get('/me', protect, getMe);
 router.put('/profile', protect, updateProfile);
+router.delete('/delete-account', protect, require('../controllers/userController').deleteAccount);
 
 // Admin routes
 router.get('/all', adminProtect, getAllUsers);

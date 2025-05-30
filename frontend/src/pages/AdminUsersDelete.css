@@ -1,0 +1,160 @@
+/* User Action Styles */
+.user-actions {
+  display: flex;
+  gap: var(--space-sm);
+  justify-content: center;
+}
+
+.delete-user-btn {
+  background-color: transparent;
+  border: none;
+  color: var(--color-error-600);
+  cursor: pointer;
+  padding: var(--space-xs);
+  border-radius: var(--radius-sm);
+  transition: all 0.2s ease;
+}
+
+.delete-user-btn:hover:not(:disabled) {
+  background-color: var(--color-error-50);
+  color: var(--color-error-700);
+}
+
+.delete-user-btn:disabled {
+  color: var(--color-neutral-400);
+  cursor: not-allowed;
+}
+
+/* Delete Modal Styles */
+.delete-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.delete-modal {
+  background-color: white;
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 500px;
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+  animation: modal-appear 0.3s ease-out;
+}
+
+@keyframes modal-appear {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.delete-modal-header {
+  background-color: var(--color-error-50);
+  padding: var(--space-md);
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  border-bottom: 1px solid var(--color-error-100);
+}
+
+.warning-icon {
+  color: var(--color-error-600);
+  font-size: 1.5rem;
+}
+
+.delete-modal-header h3 {
+  color: var(--color-error-800);
+  margin: 0;
+}
+
+.delete-modal-content {
+  padding: var(--space-lg);
+}
+
+.warning-text {
+  color: var(--color-error-700);
+  font-size: 0.9rem;
+  margin-top: var(--space-md);
+  padding: var(--space-sm);
+  background-color: var(--color-error-50);
+  border-radius: var(--radius-sm);
+}
+
+.delete-error {
+  margin-top: var(--space-md);
+  padding: var(--space-sm);
+  background-color: var(--color-error-50);
+  border-left: 3px solid var(--color-error-600);
+  color: var(--color-error-700);
+  border-radius: var(--radius-sm);
+}
+
+.delete-success {
+  margin-top: var(--space-md);
+  padding: var(--space-sm);
+  background-color: var(--color-success-50);
+  border-left: 3px solid var(--color-success-600);
+  color: var(--color-success-700);
+  border-radius: var(--radius-sm);
+}
+
+.delete-modal-actions {
+  padding: var(--space-md);
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-md);
+  border-top: 1px solid var(--color-neutral-200);
+}
+
+.cancel-btn {
+  padding: var(--space-sm) var(--space-lg);
+  background-color: var(--color-neutral-100);
+  border: 1px solid var(--color-neutral-300);
+  border-radius: var(--radius-md);
+  color: var(--color-neutral-700);
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.cancel-btn:hover:not(:disabled) {
+  background-color: var(--color-neutral-200);
+}
+
+.delete-btn {
+  padding: var(--space-sm) var(--space-lg);
+  background-color: var(--color-error-600);
+  border: 1px solid var(--color-error-600);
+  border-radius: var(--radius-md);
+  color: white !important;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  z-index: 1001 !important;
+}
+
+.delete-btn:hover:not(:disabled) {
+  background-color: var(--color-error-700);
+  border-color: var(--color-error-700);
+}
+
+.delete-btn:disabled,
+.cancel-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

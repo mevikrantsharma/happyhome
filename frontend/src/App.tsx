@@ -5,6 +5,7 @@ import { useEffect } from 'react'
 import Layout from './components/layout/Layout'
 import AdminLayout from './components/layout/AdminLayout'
 import { AuthProvider } from './context/AuthContext'
+import { WishlistProvider } from './context/WishlistContext'
 import ProtectedRoute from './components/shared/ProtectedRoute'
 
 import Home from './pages/Home'
@@ -15,6 +16,10 @@ import About from './pages/About'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import UserProfile from './pages/UserProfile'
+import Wishlist from './pages/Wishlist'
+import CostEstimator from './pages/CostEstimator'
+import Reviews from './pages/Reviews'
+import SubmitReview from './pages/SubmitReview'
 import AdminLogin from './pages/AdminLogin'
 import AdminMessages from './pages/AdminMessages'
 import AdminSettings from './pages/AdminSettings'
@@ -53,7 +58,8 @@ function App() {
   return (
     <>
       <AuthProvider>
-        <ScrollToTop />
+        <WishlistProvider>
+          <ScrollToTop />
         {isAdminPage ? (
         // Admin routes with AdminLayout
         <AdminLayout>
@@ -86,10 +92,23 @@ function App() {
                   <UserProfile />
                 </ProtectedRoute>
               } />
+              <Route path="/wishlist" element={
+                <ProtectedRoute>
+                  <Wishlist />
+                </ProtectedRoute>
+              } />
+              <Route path="/cost-estimator" element={<CostEstimator />} />
+              <Route path="/reviews" element={<Reviews />} />
+              <Route path="/submit-review" element={
+                <ProtectedRoute>
+                  <SubmitReview />
+                </ProtectedRoute>
+              } />
             </Routes>
           </AnimatePresence>
         </Layout>
       )}
+        </WishlistProvider>
       </AuthProvider>
     </>
   )

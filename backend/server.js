@@ -54,6 +54,15 @@ app.use('/api/users', require('./routes/userRoutes'));
 // Mount OTP routes
 app.use('/api/otp', require('./routes/otpRoutes'));
 
+// Mount wishlist routes
+app.use('/api/wishlists', require('./routes/wishlistRoutes'));
+
+// Mount review routes
+app.use('/api/reviews', require('./routes/reviewRoutes'));
+
+// Mount admin user routes
+app.use('/api/admin/users', require('./routes/adminUserRoutes'));
+
 // Test route
 app.get('/', (req, res) => {
   res.send('API is running...');

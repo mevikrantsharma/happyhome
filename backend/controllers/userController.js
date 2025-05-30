@@ -1,5 +1,6 @@
 const User = require('../models/User');
 const jwt = require('jsonwebtoken');
+const mongoose = require('mongoose');
 
 // Generate JWT token
 const generateToken = (id) => {
@@ -160,6 +161,64 @@ exports.getAllUsers = async (req, res) => {
     return res.status(500).json({
       success: false,
       error: 'Failed to fetch users from database'
+    });
+  }
+};
+
+// @desc    Delete user account (self-deletion)
+// @route   DELETE /api/users/delete-account
+// @access  Private
+exports.deleteAccount = async (req, res) => {
+  try {
+    const { password } = req.body;
+    
+    // Get user from database (includes password hash)
+    const user = await User.findById(req.user.id).select('+password');
+    
+    if (!user) {
+      return res.status(404).json({
+        success: false,
+        error: 'User not found'
+      });
+    }
+    
+    // Check if password matches
+    const isMatch = await user.matchPassword(password);
+    
+    if (!isMatch) {
+      return res.status(401).json({
+        success: false,
+        error: 'Incorrect password'
+      });
+    }
+    
+    // Delete all user's data
+    // 1. Delete user's wishlists
+    if (mongoose.connection.models.Wishlist) {
+      await mongoose.connection.models.Wishlist.deleteMany({ user: user._id });
+    }
+    
+    // 2. Delete user's reviews
+    if (mongoose.connection.models.Review) {
+      await mongoose.connection.models.Review.deleteMany({ user: user._id });
+    }
+    
+    // 3. Delete any other user-related data
+    // Add additional data deletion here if needed
+    
+    // 4. Finally delete the user
+    await User.deleteOne({ _id: user._id });
+    
+    res.status(200).json({
+      success: true,
+      message: 'Account deleted successfully'
+    });
+    
+  } catch (error) {
+    console.error('Delete account error:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server Error'
     });
   }
 };

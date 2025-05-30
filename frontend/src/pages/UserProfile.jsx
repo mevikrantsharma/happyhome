@@ -4,9 +4,10 @@ import { motion } from 'framer-motion';
 import { AuthContext } from '../context/AuthContext';
 import PageHeader from '../components/shared/PageHeader';
 import './UserProfile.css';
+import '../pages/SimpleModal.css';
 
 const UserProfile = () => {
-  const { user, updateProfile, logout, error, loading, isAuthenticated } = useContext(AuthContext);
+  const { user, updateProfile, logout, deleteAccount, error, loading, isAuthenticated } = useContext(AuthContext);
   const navigate = useNavigate();
 
   // Form states
@@ -22,6 +23,12 @@ const UserProfile = () => {
   // Success message state
   const [success, setSuccess] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  
+  // Delete account states
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState('');
 
   // Load user data when component mounts
   useEffect(() => {
@@ -112,6 +119,27 @@ const UserProfile = () => {
     logout();
     navigate('/login');
   };
+  
+  // Handle account deletion
+  const handleDeleteAccount = async (e) => {
+    e.preventDefault();
+    
+    if (!deletePassword) {
+      setDeleteError('Please enter your password to confirm deletion');
+      return;
+    }
+    
+    setDeleteLoading(true);
+    const result = await deleteAccount(deletePassword);
+    setDeleteLoading(false);
+    
+    if (result.success) {
+      // Redirect to homepage after successful deletion
+      navigate('/');
+    } else {
+      setDeleteError(result.error || 'Failed to delete account');
+    }
+  };
 
   return (
     <motion.div
@@ -156,6 +184,15 @@ const UserProfile = () => {
                 <li>
                   <button onClick={handleLogout} className="logout-button">
                     Sign Out
+                  </button>
+                </li>
+                <li className="menu-separator"></li>
+                <li>
+                  <button 
+                    onClick={() => setShowDeleteConfirm(true)} 
+                    className="delete-account-button"
+                  >
+                    Delete Account
                   </button>
                 </li>
               </ul>
@@ -270,8 +307,73 @@ const UserProfile = () => {
           </div>
         </div>
       </section>
-    </motion.div>
-  );
-};
-
+        
+        {/* Delete Account Confirmation Modal */}
+        {showDeleteConfirm && (
+          <div className="simple-modal-overlay">
+            <div className="simple-modal">
+              <h3>Delete Your Account</h3>
+              
+              <div className="simple-modal-content">
+                <div className="warning-icon-container">
+                  <span className="warning-icon-large">⚠️</span>
+                </div>
+                
+                <p>Are you sure you want to delete your account?</p>
+                <p>This action <strong>cannot be undone</strong>. All your data will be permanently deleted, including:</p>
+                <ul>
+                  <li>Your profile information</li>
+                  <li>Your saved collections and wishlists</li>
+                  <li>Your reviews and testimonials</li>
+                </ul>
+                
+                <form onSubmit={handleDeleteAccount}>
+                  <div className="form-group">
+                    <label htmlFor="deletePassword">Enter your password to confirm:</label>
+                    <input
+                      id="deletePassword"
+                      type="password"
+                      value={deletePassword}
+                      onChange={(e) => setDeletePassword(e.target.value)}
+                      required
+                    />
+                  </div>
+                  
+                  {deleteError && (
+                    <div className="simple-error-message">
+                      {deleteError}
+                    </div>
+                  )}
+                  
+                  <div className="simple-modal-actions">
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        setShowDeleteConfirm(false);
+                        setDeletePassword('');
+                        setDeleteError('');
+                      }}
+                      className="simple-cancel-btn"
+                      disabled={deleteLoading}
+                    >
+                      Cancel
+                    </button>
+                    
+                    <button 
+                      type="submit"
+                      className="simple-delete-btn"
+                      disabled={deleteLoading}
+                    >
+                      {deleteLoading ? 'Deleting...' : 'Permanently Delete Account'}
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        )}
+      </motion.div>
+    );
+  };
+  
 export default UserProfile;

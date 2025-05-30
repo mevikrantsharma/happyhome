@@ -25,45 +25,55 @@ export const AuthProvider = ({ children }) => {
       const storedToken = localStorage.getItem('token');
       const sessionTimestamp = localStorage.getItem('sessionTimestamp');
       
-      // Check for session timeout (24 hours)
-      const SESSION_TIMEOUT = 24 * 60 * 60 * 1000; // 24 hours in milliseconds
-      const currentTime = new Date().getTime();
-      const sessionTime = sessionTimestamp ? parseInt(sessionTimestamp) : 0;
-      
-      if (currentTime - sessionTime > SESSION_TIMEOUT) {
-        // Session expired, clear storage
-        console.log('Session expired due to timeout');
-        clearSession();
-        setLoading(false);
-        return;
-      }
-
+      // First set the stored values to maintain session across reloads
       if (storedUser && storedToken) {
         try {
-          // Validate token with the server
-          const response = await fetch('http://localhost:4000/api/users/me', {
-            headers: {
-              'Authorization': `Bearer ${storedToken}`
-            }
-          });
+          const userData = JSON.parse(storedUser);
+          setUser(userData);
+          setToken(storedToken);
           
-          if (response.ok) {
-            // Token is valid
-            setUser(JSON.parse(storedUser));
-            setToken(storedToken);
-            // Update session timestamp
-            localStorage.setItem('sessionTimestamp', currentTime.toString());
-          } else {
-            // Token is invalid
-            console.log('Invalid token, clearing session');
+          // Set current time if no timestamp exists
+          if (!sessionTimestamp) {
+            localStorage.setItem('sessionTimestamp', new Date().getTime().toString());
+          }
+          
+          // Check for session timeout (7 days instead of 24 hours for better UX)
+          const SESSION_TIMEOUT = 7 * 24 * 60 * 60 * 1000; // 7 days in milliseconds
+          const currentTime = new Date().getTime();
+          const sessionTime = sessionTimestamp ? parseInt(sessionTimestamp) : currentTime;
+          
+          if (currentTime - sessionTime > SESSION_TIMEOUT) {
+            // Session expired, clear storage
+            console.log('Session expired due to timeout');
             clearSession();
+            setLoading(false);
+            return;
+          }
+
+          // Validate token with the server, but don't logout on failure
+          try {
+            const response = await fetch('http://localhost:4000/api/users/me', {
+              headers: {
+                'Authorization': `Bearer ${storedToken}`
+              }
+            });
+            
+            if (response.ok) {
+              // Token is valid, update timestamp
+              localStorage.setItem('sessionTimestamp', currentTime.toString());
+            } else {
+              // For invalid token, we'll still keep the user logged in
+              // but we won't update the timestamp
+              console.log('Token validation failed, but keeping user session');
+            }
+          } catch (error) {
+            // On network error, just keep the session
+            console.error('Error validating token:', error);
           }
         } catch (error) {
-          console.error('Error validating token:', error);
-          // On error (like server not responding), don't auto-logout
-          // Just use stored data but don't update timestamp
-          setUser(JSON.parse(storedUser));
-          setToken(storedToken);
+          // If there's an error parsing the user data, clear the session
+          console.error('Error parsing stored user data:', error);
+          clearSession();
         }
       }
       
@@ -151,6 +161,40 @@ export const AuthProvider = ({ children }) => {
   const logout = () => {
     clearSession();
   };
+  
+  // Delete user account
+  const deleteAccount = async (password) => {
+    setLoading(true);
+    setError(null);
+    
+    try {
+      const response = await fetch('http://localhost:4000/api/users/delete-account', {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify({ password }),
+      });
+      
+      const data = await response.json();
+      
+      if (response.ok) {
+        clearSession();
+        return { success: true, message: data.message || 'Account deleted successfully' };
+      } else {
+        setError(data.error || 'Failed to delete account');
+        return { success: false, error: data.error || 'Failed to delete account' };
+      }
+    } catch (err) {
+      const errorMessage = 'Network error. Please check your connection.';
+      setError(errorMessage);
+      console.error('Delete account error:', err);
+      return { success: false, error: errorMessage };
+    } finally {
+      setLoading(false);
+    }
+  };
 
   // Update user profile
   const updateProfile = async (userData) => {
@@ -199,15 +243,14 @@ export const AuthProvider = ({ children }) => {
     <AuthContext.Provider
       value={{
         user,
-        token,
         loading,
         error,
         register,
         login,
         logout,
         updateProfile,
-        isAuthenticated,
-        setError,
+        deleteAccount,
+        isAuthenticated: () => !!user
       }}
     >
       {children}

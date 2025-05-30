@@ -4,7 +4,8 @@ import { motion } from 'framer-motion'
 import Hero from '../components/home/Hero'
 import FeaturedServices from '../components/home/FeaturedServices'
 import FeaturedProjects from '../components/home/FeaturedProjects'
-import Testimonials from '../components/home/Testimonials'
+import HomeTools from '../components/home/HomeTools'
+import ReviewsTestimonials from '../components/home/ReviewsTestimonials'
 import CallToAction from '../components/home/CallToAction'
 
 const Home = () => {
@@ -29,7 +30,8 @@ const Home = () => {
       <Hero />
       <FeaturedServices />
       <FeaturedProjects />
-      <Testimonials />
+      <HomeTools />
+      <ReviewsTestimonials />
       <CallToAction />
     </motion.div>
   )

@@ -1,0 +1,111 @@
+.wishlist-button-container {
+  position: relative;
+}
+
+.wishlist-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: rgba(255, 255, 255, 0.9);
+  color: var(--color-danger, #dc3545);
+  border: none;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  z-index: 10;
+  font-size: 1.1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.icon-fallback {
+  position: absolute;
+  font-size: 1.3rem;
+}
+
+/* Hide fallback if SVG icon loads correctly */
+svg + .icon-fallback {
+  display: none;
+}
+
+.wishlist-button:hover {
+  transform: scale(1.1);
+  background-color: white;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+.wishlist-button.active {
+  color: var(--color-danger);
+  animation: pulse 0.5s ease-in-out;
+}
+
+.wishlist-button.loading {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.wishlist-tooltip {
+  position: absolute;
+  top: 50px;
+  right: 0;
+  background-color: white;
+  color: var(--color-neutral-800);
+  padding: 8px 12px;
+  border-radius: 4px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.2);
+  font-size: 0.9rem;
+  z-index: 20;
+  width: max-content;
+  max-width: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.wishlist-tooltip svg {
+  color: var(--color-danger);
+  margin-right: 4px;
+}
+
+.view-wishlist-link {
+  background: none;
+  border: none;
+  color: var(--color-primary-600);
+  padding: 4px;
+  margin-top: 4px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  text-decoration: underline;
+}
+
+.view-wishlist-link:hover {
+  color: var(--color-primary-700);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.2);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
