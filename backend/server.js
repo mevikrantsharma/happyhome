@@ -14,9 +14,21 @@ connectDB();
 const app = express();
 
 // Middleware
-app.use(express.json());
+// Increase JSON body size limit to handle image uploads
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+// Allow requests from multiple origins
 app.use(cors({
-  origin: 'http://localhost:5173', // Your frontend URL
+  origin: function(origin, callback) {
+    const allowedOrigins = ['http://localhost:5173', 'http://localhost:3000', 'http://localhost:5174', 'http://127.0.0.1:5173'];
+    // Allow requests with no origin (like mobile apps, curl requests)
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      console.log('Origin not allowed by CORS:', origin);
+      callback(null, true); // Allow all origins in development
+    }
+  },
   credentials: true
 }));
 

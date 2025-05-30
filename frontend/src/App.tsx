@@ -16,9 +16,9 @@ import About from './pages/About'
 import Login from './pages/Login'
 import Signup from './pages/Signup'
 import UserProfile from './pages/UserProfile'
+import UserDashboard from './pages/UserDashboard'
 import Wishlist from './pages/Wishlist'
 import CostEstimator from './pages/CostEstimator'
-import Reviews from './pages/Reviews'
 import SubmitReview from './pages/SubmitReview'
 import AdminLogin from './pages/AdminLogin'
 import AdminMessages from './pages/AdminMessages'
@@ -92,13 +92,17 @@ function App() {
                   <UserProfile />
                 </ProtectedRoute>
               } />
+              <Route path="/dashboard" element={
+                <ProtectedRoute>
+                  <UserDashboard />
+                </ProtectedRoute>
+              } />
               <Route path="/wishlist" element={
                 <ProtectedRoute>
                   <Wishlist />
                 </ProtectedRoute>
               } />
               <Route path="/cost-estimator" element={<CostEstimator />} />
-              <Route path="/reviews" element={<Reviews />} />
               <Route path="/submit-review" element={
                 <ProtectedRoute>
                   <SubmitReview />

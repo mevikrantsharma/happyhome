@@ -188,6 +188,18 @@ const SubmitReview = () => {
     
     try {
       const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setErrors((prev) => ({
+          ...prev,
+          submit: 'Authentication token not found. Please log in again.'
+        }));
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        setLoading(false);
+        return;
+      }
+
+      console.log('Submitting review to API...');
       const response = await fetch('http://localhost:4000/api/reviews', {
         method: 'POST',
         headers: {
@@ -197,7 +209,9 @@ const SubmitReview = () => {
         body: JSON.stringify(formData)
       });
       
+      console.log('Response status:', response.status);
       const data = await response.json();
+      console.log('Response data:', data);
       
       if (response.ok) {
         setSuccess(true);

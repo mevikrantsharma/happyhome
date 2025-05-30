@@ -88,7 +88,9 @@ const Header = () => {
                 
                 {userMenuOpen && (
                   <div className="user-dropdown">
+                    <Link to="/dashboard" className="dropdown-item">My Dashboard</Link>
                     <Link to="/profile" className="dropdown-item">My Profile</Link>
+                    <Link to="/wishlist" className="dropdown-item">My Collections</Link>
                     <button onClick={handleLogout} className="dropdown-item logout">Logout</button>
                   </div>
                 )}
@@ -144,6 +146,15 @@ const Header = () => {
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1 * (navLinks.length + 1) }}
+                    >
+                      <Link to="/dashboard" className={`${location.pathname === '/dashboard' ? 'active' : ''}`}>
+                        My Dashboard
+                      </Link>
+                    </motion.li>
+                    <motion.li
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ delay: 0.1 * (navLinks.length + 2) }}
                     >
                       <Link to="/profile" className={`${location.pathname === '/profile' ? 'active' : ''}`}>
                         My Profile

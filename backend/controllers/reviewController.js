@@ -2,23 +2,58 @@ const Review = require('../models/Review');
 const User = require('../models/User');
 const { cloudinary } = require('../config/cloudinary');
 
-// @desc    Get all approved reviews
+// @desc    Get all approved reviews (and user's own pending reviews if authenticated)
 // @route   GET /api/reviews
 // @access  Public
 exports.getReviews = async (req, res) => {
   try {
     const { service, limit = 10, page = 1, featured } = req.query;
     
-    const query = { status: 'approved' };
+    // Base query for approved reviews
+    let query = { status: 'approved' };
+    
+    // If user is authenticated, add their own pending reviews to the results
+    if (req.headers.authorization) {
+      try {
+        const token = req.headers.authorization.split(' ')[1];
+        const jwt = require('jsonwebtoken');
+        const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        
+        if (decoded && decoded.id) {
+          // Include either approved reviews OR pending reviews that belong to this user
+          query = { 
+            $or: [
+              { status: 'approved' },
+              { status: 'pending', user: decoded.id }
+            ]
+          };
+        }
+      } catch (error) {
+        // Invalid token, just continue with approved reviews only
+        console.log('Token verification failed, showing only approved reviews');
+      }
+    }
     
     // Add service filter if provided
     if (service) {
-      query.service = service;
+      if (query.$or) {
+        // If we have $or conditions, apply service filter to both conditions
+        query.$or[0].service = service;
+        query.$or[1].service = service;
+      } else {
+        query.service = service;
+      }
     }
     
     // Add featured filter if provided
     if (featured === 'true') {
-      query.featured = true;
+      if (query.$or) {
+        // If we have $or conditions, apply featured filter to both conditions
+        query.$or[0].featured = true;
+        query.$or[1].featured = true;
+      } else {
+        query.featured = true;
+      }
     }
     
     const skip = (parseInt(page) - 1) * parseInt(limit);
@@ -98,18 +133,7 @@ exports.createReview = async (req, res) => {
   try {
     const { title, content, service, ratings, projectDetails, location, images } = req.body;
     
-    // Check if user has already reviewed this service
-    const existingReview = await Review.findOne({ 
-      user: req.user.id,
-      service
-    });
-    
-    if (existingReview) {
-      return res.status(400).json({
-        success: false,
-        error: 'You have already submitted a review for this service'
-      });
-    }
+    // Removed validation that limited users to one review per service
     
     // Process images if provided
     const processedImages = [];
@@ -280,12 +304,18 @@ exports.deleteReview = async (req, res) => {
     // Delete images from cloudinary
     for (const image of review.images) {
       if (image.imageUrl) {
-        const publicId = image.imageUrl.split('/').pop().split('.')[0];
-        await cloudinary.uploader.destroy(`reviews/${publicId}`);
+        try {
+          const publicId = image.imageUrl.split('/').pop().split('.')[0];
+          await cloudinary.uploader.destroy(`reviews/${publicId}`);
+        } catch (imageError) {
+          console.error('Error deleting image from Cloudinary:', imageError);
+          // Continue with deletion even if image removal fails
+        }
       }
     }
     
-    await review.remove();
+    // Use deleteOne() instead of remove() (which is deprecated)
+    await Review.deleteOne({ _id: review._id });
     
     res.status(200).json({
       success: true,
@@ -369,6 +399,29 @@ exports.getAdminReviews = async (req, res) => {
     });
   } catch (error) {
     console.error('Error fetching admin reviews:', error);
+    res.status(500).json({
+      success: false,
+      error: 'Server error'
+    });
+  }
+};
+
+// @desc    Get reviews by logged in user (includes all statuses)
+// @route   GET /api/reviews/user
+// @access  Private
+exports.getUserReviews = async (req, res) => {
+  try {
+    // Find all reviews by the currently logged in user
+    const reviews = await Review.find({ user: req.user.id })
+      .sort({ createdAt: -1 });
+    
+    res.status(200).json({
+      success: true,
+      count: reviews.length,
+      data: reviews
+    });
+  } catch (error) {
+    console.error('Error fetching user reviews:', error);
     res.status(500).json({
       success: false,
       error: 'Server error'

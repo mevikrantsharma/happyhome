@@ -1,5 +1,6 @@
 .submit-review-page {
   padding: var(--space-xl) 0;
+  padding-top: 100px; /* Increased padding to account for navbar */
   background-color: var(--color-neutral-50);
 }
 

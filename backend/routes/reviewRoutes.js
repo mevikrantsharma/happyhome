@@ -7,13 +7,17 @@ const {
   updateReview,
   deleteReview,
   getServiceStats,
-  getAdminReviews
+  getAdminReviews,
+  getUserReviews
 } = require('../controllers/reviewController');
 const { protect, authorize } = require('../middleware/userAuthMiddleware');
 
 // Public routes
 router.get('/', getReviews);
 router.get('/stats', getServiceStats);
+
+// Protected routes (logged in users)
+router.get('/user', protect, getUserReviews);  // Must come BEFORE /:id route
 router.get('/:id', getReviewById);
 
 // Protected routes (logged in users)

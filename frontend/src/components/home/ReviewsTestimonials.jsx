@@ -378,10 +378,6 @@ const ReviewsTestimonials = () => {
             </div>
             
             <div className="cta-buttons">
-              <Link to="/reviews" className="view-all-button">
-                View All Reviews
-              </Link>
-              
               {isAuthenticated() && (
                 <Link to="/submit-review" className="submit-review-button">
                   Share Your Experience
