@@ -4,13 +4,14 @@ import { FaExpand, FaTimes } from 'react-icons/fa'
 import './GalleryItem.css'
 
 export interface GalleryItemType {
-  id: number
+  id?: number
+  _id?: string
   title: string
   category: string
   description: string
-  location: string
-  before: string
-  after: string
+  location?: string
+  image?: string
+  imageUrl?: string
 }
 
 interface GalleryItemProps {
@@ -19,7 +20,6 @@ interface GalleryItemProps {
 
 const GalleryItem = ({ item }: GalleryItemProps) => {
   const [isExpanded, setIsExpanded] = useState(false)
-  const [showAfter, setShowAfter] = useState(true)
 
   return (
     <>
@@ -31,38 +31,12 @@ const GalleryItem = ({ item }: GalleryItemProps) => {
         exit={{ opacity: 0 }}
       >
         <div className="gallery-item-image">
-          <div className="before-after-container">
-            {/* Before Image */}
-            <div 
-              className={`before-image ${!showAfter ? 'active' : ''}`}
-              style={{ backgroundImage: `url(${item.before})` }}
-            >
-              <div className="image-label">Before</div>
-            </div>
-            
-            {/* After Image */}
-            <div 
-              className={`after-image ${showAfter ? 'active' : ''}`}
-              style={{ backgroundImage: `url(${item.after})` }}
-            >
-              <div className="image-label">After</div>
-            </div>
-          </div>
-          
-          {/* Toggle Buttons */}
-          <div className="toggle-buttons">
-            <button 
-              className={`toggle-btn ${!showAfter ? 'active' : ''}`}
-              onClick={() => setShowAfter(false)}
-            >
-              Before
-            </button>
-            <button 
-              className={`toggle-btn ${showAfter ? 'active' : ''}`}
-              onClick={() => setShowAfter(true)}
-            >
-              After
-            </button>
+          <div className="image-container">
+            <img 
+              src={item.image || item.imageUrl} 
+              alt={item.title} 
+              className="gallery-image"
+            />
           </div>
           
           <button 
@@ -96,15 +70,12 @@ const GalleryItem = ({ item }: GalleryItemProps) => {
               <FaTimes />
             </button>
             
-            <div className="expanded-images">
-              <div className="expanded-image">
-                <img src={item.before} alt={`${item.title} Before`} />
-                <div className="expanded-image-label">Before</div>
-              </div>
-              <div className="expanded-image">
-                <img src={item.after} alt={`${item.title} After`} />
-                <div className="expanded-image-label">After</div>
-              </div>
+            <div className="expanded-image-container">
+              <img 
+                src={item.image || item.imageUrl} 
+                alt={item.title} 
+                className="expanded-image"
+              />
             </div>
             
             <div className="expanded-details">
