@@ -25,6 +25,8 @@ const ContactForm = () => {
     setIsSubmitting(true)
     
     try {
+      console.log('Submitting contact form data:', data)
+      
       // Send data to backend API
       const response = await fetch('http://localhost:4000/api/contacts', {
         method: 'POST',
@@ -39,6 +41,9 @@ const ContactForm = () => {
       if (response.ok) {
         console.log('Contact form submitted successfully:', result)
         setIsSubmitted(true)
+        
+        // Reset form fields after successful submission if needed
+        // reset()
       } else {
         console.error('Error submitting form:', result)
         // Show more detailed error message if available

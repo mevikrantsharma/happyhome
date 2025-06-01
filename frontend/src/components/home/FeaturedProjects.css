@@ -14,9 +14,8 @@
 }
 
 .project-images {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: var(--space-md);
+  display: block;
+  width: 100%;
 }
 
 .project-image-container {
@@ -33,17 +32,7 @@
   object-fit: cover;
 }
 
-.image-label {
-  position: absolute;
-  bottom: var(--space-sm);
-  left: var(--space-sm);
-  padding: var(--space-xs) var(--space-sm);
-  background-color: rgba(15, 52, 96, 0.8);
-  color: white;
-  font-size: 0.8rem;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
-}
+
 
 .project-details {
   padding: var(--space-lg);
@@ -127,10 +116,6 @@
 }
 
 @media (max-width: 576px) {
-  .project-images {
-    grid-template-columns: 1fr;
-  }
-
   .project-navigation {
     flex-direction: column;
   }

@@ -93,6 +93,74 @@
   margin: var(--space-md) 0;
 }
 
+/* Signout button styles */
+.signout-button-container {
+  padding: var(--space-md);
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-md);
+}
+
+.signout-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 24px;
+  background: rgba(255, 255, 255, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-radius: 50px;
+  color: var(--color-error-600);
+  font-weight: 500;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  width: 80%;
+  font-size: 1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.signout-button:hover {
+  background: rgba(255, 235, 235, 0.25);
+  box-shadow: 0 8px 24px rgba(31, 38, 135, 0.25);
+  transform: translateY(-2px);
+  color: var(--color-error-700);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.signout-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent,
+    rgba(255, 255, 255, 0.3),
+    transparent
+  );
+  transition: all 0.7s ease;
+}
+
+.signout-button:hover::before {
+  left: 100%;
+}
+
+.signout-button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.signout-button-icon {
+  font-size: 18px;
+}
+
+/* Old logout button styles kept for reference */
 .logout-button {
   color: var(--color-error-600) !important;
 }

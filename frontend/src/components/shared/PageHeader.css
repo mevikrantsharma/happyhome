@@ -1,6 +1,7 @@
 .page-header {
   position: relative;
   height: 400px;
+  background: #0a1e3c; /* Fallback solid color */
   background-size: cover;
   background-position: center;
   display: flex;
@@ -8,6 +9,7 @@
   justify-content: center;
   color: white;
   margin-top: 70px;
+  overflow: hidden;
 }
 
 .overlay {
@@ -16,30 +18,37 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    to right,
-    rgba(15, 52, 96, 0.9),
-    rgba(15, 52, 96, 0.7)
-  );
+  background-color: rgba(10, 30, 60, 0.8);
 }
 
 .page-header-content {
   position: relative;
   z-index: 2;
   text-align: center;
+  width: 100%;
+  max-width: 800px;
+  padding: 0 20px;
 }
 
 .page-title {
   font-size: 3rem;
   margin-bottom: var(--space-md);
-  color: white;
+  color: #ffffff;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+  position: relative;
+  font-weight: 700;
+  letter-spacing: 1px;
 }
 
 .page-subtitle {
   font-size: 1.2rem;
   max-width: 700px;
   margin: 0 auto;
-  font-weight: 300;
+  font-weight: 400;
+  color: #f0f0f0;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  position: relative;
+  line-height: 1.6;
 }
 
 @media (max-width: 768px) {

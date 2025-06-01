@@ -1,6 +1,7 @@
 import { useState, useContext, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
+import { FaSignOutAlt, FaUser, FaLock, FaTrash } from 'react-icons/fa';
 import { AuthContext } from '../context/AuthContext';
 import PageHeader from '../components/shared/PageHeader';
 import './UserProfile.css';
@@ -165,6 +166,13 @@ const UserProfile = () => {
                 </div>
                 <h3>{user?.name || 'User'}</h3>
                 <p>{user?.email || 'email@example.com'}</p>
+                
+                <div className="signout-button-container">
+                  <button className="signout-button" onClick={handleLogout}>
+                    <FaSignOutAlt className="signout-button-icon" />
+                    Sign Out
+                  </button>
+                </div>
               </div>
               
               <ul className="profile-menu">
@@ -179,12 +187,6 @@ const UserProfile = () => {
                 </li>
                 <li>
                   <button>Billing Information</button>
-                </li>
-                <li className="menu-separator"></li>
-                <li>
-                  <button onClick={handleLogout} className="logout-button">
-                    Sign Out
-                  </button>
                 </li>
                 <li className="menu-separator"></li>
                 <li>

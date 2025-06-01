@@ -1,4 +1,5 @@
 const Contact = require('../models/Contact');
+const { sendContactEmail } = require('../utils/emailService');
 
 // @desc    Create new contact submission
 // @route   POST /api/contacts
@@ -14,6 +15,27 @@ const createContact = async (req, res) => {
       message,
       service
     });
+    
+    // Send email notification to admin
+    try {
+      console.log('Attempting to send email notification...');
+      const emailSent = await sendContactEmail({
+        name,
+        email,
+        phone,
+        message,
+        service
+      });
+      
+      if (emailSent) {
+        console.log('Email notification sent successfully');
+      } else {
+        console.log('Email failed to send but will continue with response');
+      }
+    } catch (emailError) {
+      console.error('Error in email sending process:', emailError);
+      // Continue with response even if email fails
+    }
 
     res.status(201).json({
       success: true,

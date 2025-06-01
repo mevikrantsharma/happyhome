@@ -140,10 +140,6 @@ const ReviewsTestimonials = () => {
         {
           imageUrl: 'https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg',
           caption: 'Living room transformation'
-        },
-        {
-          imageUrl: 'https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg',
-          caption: 'Kitchen renovation'
         }
       ],
       createdAt: new Date('2025-04-10')
