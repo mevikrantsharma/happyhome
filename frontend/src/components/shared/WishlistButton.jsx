@@ -21,7 +21,9 @@ const WishlistButton = ({ imageId }) => {
   useEffect(() => {
     if (wishlists && wishlists.length > 0) {
       const inAnyWishlist = wishlists.some(wishlist => 
-        wishlist.items.some(item => item.image._id === imageId)
+        wishlist.items && wishlist.items.some(item => 
+          item && item.image && item.image._id === imageId
+        )
       );
       setIsInWishlist(inAnyWishlist);
     }

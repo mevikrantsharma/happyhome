@@ -14,6 +14,13 @@ exports.getWishlists = async (req, res) => {
       })
       .sort({ createdAt: -1 });
 
+    // Filter out items with null images (deleted images)
+    wishlists.forEach(wishlist => {
+      if (wishlist.items && wishlist.items.length > 0) {
+        wishlist.items = wishlist.items.filter(item => item.image !== null);
+      }
+    });
+
     res.status(200).json({
       success: true,
       count: wishlists.length,
@@ -52,6 +59,11 @@ exports.getWishlist = async (req, res) => {
         success: false,
         error: 'Not authorized to access this wishlist'
       });
+    }
+
+    // Filter out items with null images (deleted images)
+    if (wishlist.items && wishlist.items.length > 0) {
+      wishlist.items = wishlist.items.filter(item => item.image !== null);
     }
 
     res.status(200).json({

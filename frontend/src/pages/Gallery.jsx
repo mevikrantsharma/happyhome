@@ -143,7 +143,7 @@ const Gallery = () => {
           >
             <div className="gallery-image-container">
               <img src={image.imageUrl} alt={image.title} className="gallery-image" />
-              <WishlistButton imageId={image._id} />
+              {image && image._id && <WishlistButton imageId={image._id} />}
             </div>
             <div className="gallery-item-info">
               <h3>{image.title}</h3>
@@ -159,7 +159,7 @@ const Gallery = () => {
             <button className="modal-close-button" onClick={closeModal}>×</button>
             <div className="modal-image-container">
               <img src={selectedImage.imageUrl} alt={selectedImage.title} className="modal-image" />
-              <WishlistButton imageId={selectedImage._id} />
+              {selectedImage && selectedImage._id && <WishlistButton imageId={selectedImage._id} />}
             </div>
             <div className="modal-image-details">
               <h2>{selectedImage.title}</h2>
