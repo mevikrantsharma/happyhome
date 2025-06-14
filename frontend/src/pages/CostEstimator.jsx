@@ -11,7 +11,6 @@ const CostEstimator = () => {
     length: 0,
     renovationType: 'basic',
     materialGrade: 'economy',
-    includeLabor: true,
     includeFlooring: true,
     includePainting: true,
   });
@@ -41,7 +40,6 @@ const CostEstimator = () => {
   const additionalCosts = {
     flooring: { economy: 400, standard: 800, premium: 2000 }, // per sq ft
     painting: { economy: 250, standard: 400, premium: 650 },  // per sq ft
-    labor: 0.4, // 40% of material costs
   };
 
   // Room type descriptions
@@ -90,11 +88,8 @@ const CostEstimator = () => {
     // Total material cost
     const materialCost = baseCost + additionalCost;
     
-    // Labor cost if included
-    const laborCost = formData.includeLabor ? materialCost * additionalCosts.labor : 0;
-    
     // Total cost
-    const totalCost = materialCost + laborCost;
+    const totalCost = materialCost;
     
     // Calculate low and high range (±15%)
     const lowRange = totalCost * 0.85;
@@ -108,7 +103,6 @@ const CostEstimator = () => {
       renovationType: formData.renovationType,
       baseCost,
       additionalCost,
-      laborCost,
       totalCost,
       lowRange,
       highRange
@@ -277,16 +271,6 @@ const CostEstimator = () => {
             <h2>Additional Options</h2>
             
             <div className="form-group checkbox-group">
-              <label className="checkbox-container">
-                <input
-                  type="checkbox"
-                  name="includeLabor"
-                  checked={formData.includeLabor}
-                  onChange={handleInputChange}
-                />
-                <span className="checkbox-label">Include Labor Costs (40% of material costs)</span>
-              </label>
-              
               <label className="checkbox-container">
                 <input
                   type="checkbox"

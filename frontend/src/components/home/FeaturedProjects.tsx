@@ -14,7 +14,8 @@ const FeaturedProjects = () => {
       type: 'Kitchen',
       location: 'San Francisco, CA',
       description: 'Complete renovation of a cramped kitchen into an open, modern cooking space with custom cabinetry and high-end appliances.',
-      image: 'https://images.pexels.com/photos/3214064/pexels-photo-3214064.jpeg'
+      beforeImage: 'https://images.pexels.com/photos/6958519/pexels-photo-6958519.jpeg',
+      afterImage: 'https://images.pexels.com/photos/3214064/pexels-photo-3214064.jpeg'
     },
     {
       id: 2,
@@ -22,7 +23,8 @@ const FeaturedProjects = () => {
       type: 'Bathroom',
       location: 'Oakland, CA',
       description: 'Transformation of an outdated bathroom into a spa-like retreat with a freestanding tub, walk-in shower, and custom vanity.',
-      image: 'https://images.pexels.com/photos/1910472/pexels-photo-1910472.jpeg'
+      beforeImage: 'https://images.pexels.com/photos/6492403/pexels-photo-6492403.jpeg',
+      afterImage: 'https://images.pexels.com/photos/1910472/pexels-photo-1910472.jpeg'
     },
     {
       id: 3,
@@ -30,7 +32,8 @@ const FeaturedProjects = () => {
       type: 'Full House',
       location: 'Marin County, CA',
       description: 'Full renovation of a 1970s home with an open floor plan, updated finishes, and modern amenities throughout.',
-      image: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg'
+      beforeImage: 'https://images.pexels.com/photos/6077261/pexels-photo-6077261.jpeg',
+      afterImage: 'https://images.pexels.com/photos/1643384/pexels-photo-1643384.jpeg'
     }
   ]
 
@@ -46,18 +49,37 @@ const FeaturedProjects = () => {
             <AnimatedSection className="project-images">
               <AnimatePresence mode="wait">
                 <motion.div
-                  key={`project-${activeIndex}`}
+                  key={`before-${activeIndex}`}
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
                   transition={{ duration: 0.5 }}
-                  className="project-image-container"
+                  className="project-image-container before"
                 >
                   <img 
-                    src={projects[activeIndex].image} 
-                    alt={projects[activeIndex].title} 
+                    src={projects[activeIndex].beforeImage} 
+                    alt={`${projects[activeIndex].title} Before`} 
                     loading="lazy"
                   />
+                  <div className="image-label">Before</div>
+                </motion.div>
+              </AnimatePresence>
+              
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={`after-${activeIndex}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.5 }}
+                  className="project-image-container after"
+                >
+                  <img 
+                    src={projects[activeIndex].afterImage} 
+                    alt={`${projects[activeIndex].title} After`} 
+                    loading="lazy"
+                  />
+                  <div className="image-label">After</div>
                 </motion.div>
               </AnimatePresence>
             </AnimatedSection>

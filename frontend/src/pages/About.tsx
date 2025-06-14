@@ -1,4 +1,3 @@
-import React from 'react'
 import { motion } from 'framer-motion'
 import PageHeader from '../components/shared/PageHeader'
 import TeamMember, { TeamMemberType } from '../components/about/TeamMember'
@@ -12,35 +11,43 @@ const About = () => {
   const teamMembers: TeamMemberType[] = [
     {
       id: 1,
-      name: 'Michael Johnson',
+      name: 'Aayush Raj',
       role: 'Founder & CEO',
-      image: 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg',
-      bio: 'Michael founded HappyHome in 2010 with over 15 years of experience in the construction and design industry. With a background in architecture and business management, he combines creative vision with practical execution. Michael personally oversees major projects and maintains the company\'s commitment to quality and client satisfaction. His passion for transforming living spaces drives the company\'s mission to create homes that truly reflect their owners\' lifestyles and dreams.',
-      linkedin: 'https://linkedin.com'
+      image: 'src/assets/aayush.jpg',
+      bio: 'Aayush Raj founded HappyHome in 2010 with over 15 years of experience in the construction and design industry.',
+      linkedin: 'https://www.linkedin.com/in/aayushrajbca'
     },
     {
       id: 2,
-      name: 'Sarah Chen',
-      role: 'Design Director',
-      image: 'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg',
-      bio: 'Sarah leads our design team with her exceptional creative vision and attention to detail. With a Master\'s degree in Interior Design and over 10 years of experience, she specializes in blending functionality with aesthetics to create spaces that are both beautiful and practical. Sarah stays ahead of design trends while focusing on timeless elements that won\'t quickly become outdated. Her collaborative approach ensures that each client\'s unique style is reflected in their renovation project.',
-      linkedin: 'https://linkedin.com'
+      name: 'Md Ashraf Iqbal',
+      role: 'Co-Founder',
+      image: 'src/assets/ashraf.jpg',
+      bio: 'Md Ashraf Iqbal leads our design team with his exceptional creative vision and attention to detail.',
+      linkedin: 'https://www.linkedin.com/in/mohammad-ashraf-iqbal-8810b8242'
     },
     {
       id: 3,
-      name: 'David Rodriguez',
-      role: 'Project Manager',
-      image: 'https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg',
-      bio: 'David brings over 12 years of construction management experience to every project he oversees. His exceptional organizational skills and attention to detail ensure that renovations are completed on time, within budget, and to our exacting quality standards. David excels at coordinating our skilled craftsmen and subcontractors, maintaining clear communication with clients throughout the process, and problem-solving when unexpected challenges arise. His commitment to excellence has been instrumental in building our reputation for reliability.',
-      linkedin: 'https://linkedin.com'
+      name: 'Kaushik Ranjan',
+      role: 'Co-Founder',
+      image: 'src/assets/kaushik.jpg',
+      bio: 'Kaushik Ranjan brings over 12 years of construction management experience to every project he oversees.',
+      linkedin: 'https://www.linkedin.com/in/mekaushikranjan'
     },
     {
       id: 4,
-      name: 'Emma Wilson',
-      role: 'Interior Designer',
-      image: 'https://images.pexels.com/photos/1181686/pexels-photo-1181686.jpeg',
-      bio: 'Emma specializes in creating cohesive, personalized interiors that reflect each client\'s unique style and needs. With a background in both residential and commercial design, she brings versatility and creativity to every project. Emma has a particular talent for selecting materials, finishes, and furnishings that work together to create harmonious spaces. Her knowledge of sustainable design practices helps clients make eco-friendly choices without compromising on style or functionality.',
-      linkedin: 'https://linkedin.com'
+      name: 'Md Aman Nazir',
+      role: 'Co-Founder',
+      image: 'src/assets/aman.jpg',
+      bio: 'Md Aman Nazir specializes in creating cohesive, personalized interiors that reflect each client\'s unique style and needs.',
+      linkedin: 'https://www.linkedin.com/in/amannazir'
+    },
+    {
+      id: 5,
+      name: 'Vikrant Sharma',
+      role: 'Co-Founder',
+      image: 'src/assets/vikrant.jpg',
+      bio: 'Vikrant Sharma specializes in creating cohesive, personalized interiors that reflect each client\'s unique style and needs.',
+      linkedin: 'https://www.linkedin.com/in/mevikrantsharma'
     }
   ]
 
