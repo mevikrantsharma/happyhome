@@ -1,4 +1,3 @@
-import React from 'react'
 import { Link } from 'react-router-dom'
 import AnimatedSection from '../shared/AnimatedSection'
 import { FaHammer, FaBath, FaHome, FaPlusSquare } from 'react-icons/fa'
